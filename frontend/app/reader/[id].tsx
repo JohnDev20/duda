@@ -18,12 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useBookStore, Book } from '../../store/bookStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { Colors } from '../../constants/Colors';
-
-// PDF viewer - only import on native platforms
-let Pdf: any = null;
-if (Platform.OS !== 'web') {
-  Pdf = require('react-native-pdf').default;
-}
+import { PdfViewer } from '../../components/PdfViewer';
 import {
   updateBook,
   fetchBookmarks,
@@ -261,46 +256,29 @@ export default function ReaderScreen() {
 
       {/* PDF Viewer */}
       <View style={styles.pdfContainer}>
-        {Platform.OS === 'web' ? (
-          <View style={styles.webNotice}>
-            <Ionicons name="phone-portrait" size={64} color={colors.primary} />
-            <Text style={[styles.webNoticeText, { color: colors.text }]}>
-              Leitor de PDF disponível apenas em dispositivos móveis
-            </Text>
-            <Text style={[styles.webNoticeSubtext, { color: colors.textSecondary }]}>
-              Use o Expo Go ou build nativo para testar
-            </Text>
-          </View>
-        ) : Pdf ? (
-          <TouchableOpacity
-            style={styles.pdfTouchable}
-            onPress={toggleBars}
-            activeOpacity={1}
-          >
-            <Pdf
-              ref={pdfRef}
-              source={{ uri: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }}
-              page={currentPage}
-              horizontal={readerMode === 'horizontal'}
-              scale={zoom}
-              onLoadComplete={(numberOfPages: number) => {
-                setTotalPages(numberOfPages);
-                setLoading(false);
-              }}
-              onPageChanged={(page: number, numberOfPages: number) => handlePageChange(page, numberOfPages)}
-              onError={(error: any) => {
-                console.error('PDF Error:', error);
-                Alert.alert('Erro', 'Não foi possível carregar o PDF');
-              }}
-              style={styles.pdf}
-              trustAllCerts={false}
-            />
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.centerContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
-          </View>
-        )}
+        <TouchableOpacity
+          style={styles.pdfTouchable}
+          onPress={toggleBars}
+          activeOpacity={1}
+        >
+          <PdfViewer
+            pdfRef={pdfRef}
+            source={{ uri: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }}
+            page={currentPage}
+            horizontal={readerMode === 'horizontal'}
+            scale={zoom}
+            onLoadComplete={(numberOfPages: number) => {
+              setTotalPages(numberOfPages);
+              setLoading(false);
+            }}
+            onPageChanged={(page: number, numberOfPages: number) => handlePageChange(page, numberOfPages)}
+            onError={(error: any) => {
+              console.error('PDF Error:', error);
+              Alert.alert('Erro', 'Não foi possível carregar o PDF');
+            }}
+            colors={colors}
+          />
+        </TouchableOpacity>
       </View>
 
       {/* Bottom Bar */}
@@ -872,22 +850,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  webNotice: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 32,
-    gap: 16,
-  },
-  webNoticeText: {
-    fontSize: 18,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  webNoticeSubtext: {
-    fontSize: 14,
-    textAlign: 'center',
   },
   centerContainer: {
     flex: 1,
