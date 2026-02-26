@@ -180,7 +180,7 @@ def test_bookmarks_crud(book_id):
         
         if response.status_code == 200:
             bookmark = response.json()
-            bookmark_id = bookmark.get("id")
+            bookmark_id = bookmark.get("_id")  # API returns _id not id
             if bookmark_id:
                 bookmark_ids.append(bookmark_id)
                 log_pass(f"Bookmark {i+1} criado: página {bookmark_data['page_number']}")
