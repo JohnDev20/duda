@@ -116,6 +116,9 @@ backend:
       - working: true
         agent: "main"
         comment: "Endpoint raiz funcionando - retorna mensagem de boas-vindas e versão"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTADO: GET /api/ retorna corretamente message e version 1.0.0"
   
   - task: "Books CRUD API"
     implemented: true
@@ -128,18 +131,24 @@ backend:
       - working: true
         agent: "main"
         comment: "POST /api/books cria livro com sucesso, gera capa rosa automática. GET /api/books retorna lista de livros"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTADO: POST /api/books cria livros corretamente com _id. PUT /api/books/:id atualiza current_page, progress, status, last_opened. DELETE /api/books/:id deleta com cascata (bookmarks e histórico). GET /api/books lista com filtros e ordenação funcionando."
   
   - task: "Bookmarks API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Endpoints implementados: POST /api/bookmarks, GET /api/bookmarks/:book_id, DELETE /api/bookmarks/:id. Precisa testar"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTADO: CRUD completo funcionando - POST cria bookmarks com _id, page_number, note, color, icon. GET /api/bookmarks/:book_id lista ordenado por página. DELETE /api/bookmarks/:id remove corretamente. Deleção em cascata funciona quando livro é deletado."
   
   - task: "Dictionary API"
     implemented: true
@@ -152,30 +161,39 @@ backend:
       - working: true
         agent: "main"
         comment: "GET /api/dictionary/:word funcionando. API externa pode estar fora, mas sistema de cache offline está ok"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTADO: GET /api/dictionary/:word funciona corretamente - retorna word, definition, synonyms. Cache offline e integração com API externa funcionando."
   
   - task: "Reading History API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "POST /api/reading-history e GET /api/reading-history/:book_id implementados, precisam ser testados"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTADO: POST /api/reading-history?book_id=X&page_number=Y adiciona entradas corretamente com timestamp. GET /api/reading-history/:book_id?limit=N retorna histórico ordenado por timestamp (mais recente primeiro). Deleção em cascata funciona."
   
   - task: "Metadata Search (Open Library)"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/metadata/search implementado com integração Open Library API"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTADO: GET /api/metadata/search?title=X funciona - retorna title, author, language da Open Library. Integração externa operacional."
   
   - task: "Stats API (Developer Mode)"
     implemented: true
@@ -188,6 +206,9 @@ backend:
       - working: true
         agent: "main"
         comment: "GET /api/stats retorna estatísticas corretas (book_count, bookmark_count, dictionary_count)"
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTADO: GET /api/stats retorna book_count, bookmark_count, dictionary_count, app_version, database_version corretamente."
 
 frontend:
   - task: "Library Screen"
