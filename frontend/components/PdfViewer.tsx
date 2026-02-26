@@ -2,8 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+let NativePdf: any = null;
+if (Platform.OS !== 'web') {
+  NativePdf = require('react-native-pdf').default;
+}
+
 interface PdfViewerProps {
-  pdfRef: any;
+  pdfRef?: any;
   source: any;
   page: number;
   horizontal: boolean;
@@ -14,10 +19,10 @@ interface PdfViewerProps {
   colors: any;
 }
 
-// Componente apenas para mobile
-if (Platform.OS === 'web') {
-  // Web version - mostra mensagem
-  export function PdfViewer({ colors }: { colors: any }) {
+export function PdfViewer(props: PdfViewerProps) {
+  const { colors, pdfRef, source, page, horizontal, scale, onLoadComplete, onPageChanged, onError } = props;
+
+  if (Platform.OS === 'web') {
     return (
       <View style={styles.webNotice}>
         <Ionicons name="phone-portrait" size={64} color={colors.primary} />
@@ -30,35 +35,29 @@ if (Platform.OS === 'web') {
       </View>
     );
   }
-} else {
-  // Native version - usa react-native-pdf
-  const Pdf = require('react-native-pdf').default;
 
-  export function PdfViewer({
-    pdfRef,
-    source,
-    page,
-    horizontal,
-    scale,
-    onLoadComplete,
-    onPageChanged,
-    onError,
-  }: PdfViewerProps) {
+  if (!NativePdf) {
     return (
-      <Pdf
-        ref={pdfRef}
-        source={source}
-        page={page}
-        horizontal={horizontal}
-        scale={scale}
-        onLoadComplete={onLoadComplete}
-        onPageChanged={onPageChanged}
-        onError={onError}
-        style={styles.pdf}
-        trustAllCerts={false}
-      />
+      <View style={styles.webNotice}>
+        <Text style={{ color: colors.text }}>PDF viewer não disponível</Text>
+      </View>
     );
   }
+
+  return (
+    <NativePdf
+      ref={pdfRef}
+      source={source}
+      page={page}
+      horizontal={horizontal}
+      scale={scale}
+      onLoadComplete={onLoadComplete}
+      onPageChanged={onPageChanged}
+      onError={onError}
+      style={styles.pdf}
+      trustAllCerts={false}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
