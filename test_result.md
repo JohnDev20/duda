@@ -290,16 +290,13 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Books CRUD API"
-    - "Bookmarks API"
-    - "Dictionary API"
-    - "Reading History API"
-    - "Metadata Search API"
+  current_focus: []
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
     message: "Backend completo implementado com todos os endpoints funcionando. MongoDB configurado. API de dicionário integrada (api-dicionario-ptbr). Open Library API para metadados. Frontend completo com todas as telas: biblioteca (grid/list), leitor PDF completo (navegação, zoom, bookmarks, dicionário, sidebar), configurações e desenvolvedor. Tema rosa vibrante aplicado. Por favor, testar todos os endpoints do backend primeiro."
+  - agent: "testing"
+    message: "✅ TODOS OS ENDPOINTS BACKEND TESTADOS E FUNCIONANDO! Testei: Books CRUD (criar/listar/atualizar/deletar), Bookmarks CRUD (criar/listar/deletar + cascata), Reading History (adicionar/buscar + cascata), Dictionary (busca + cache), Metadata Search (Open Library), Stats (contadores). Todos os cenários de alta e média prioridade passaram. Deleção em cascata confirmada. APIs prontas para produção."
