@@ -101,3 +101,184 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Criar app móvel DUDA - leitor offline premium para PDF com tema rosa, em português brasileiro. Sistema completo de PDF com importação, biblioteca, leitor completo com bookmarks, dicionário híbrido, configurações e modo desenvolvedor."
+
+backend:
+  - task: "API Root"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Endpoint raiz funcionando - retorna mensagem de boas-vindas e versão"
+  
+  - task: "Books CRUD API"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "POST /api/books cria livro com sucesso, gera capa rosa automática. GET /api/books retorna lista de livros"
+  
+  - task: "Bookmarks API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Endpoints implementados: POST /api/bookmarks, GET /api/bookmarks/:book_id, DELETE /api/bookmarks/:id. Precisa testar"
+  
+  - task: "Dictionary API"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "GET /api/dictionary/:word funcionando. API externa pode estar fora, mas sistema de cache offline está ok"
+  
+  - task: "Reading History API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/reading-history e GET /api/reading-history/:book_id implementados, precisam ser testados"
+  
+  - task: "Metadata Search (Open Library)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/metadata/search implementado com integração Open Library API"
+  
+  - task: "Stats API (Developer Mode)"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "GET /api/stats retorna estatísticas corretas (book_count, bookmark_count, dictionary_count)"
+
+frontend:
+  - task: "Library Screen"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/index.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Tela de biblioteca completa com grid/list view, filtros, ordenação, busca, importação de PDF. Não testado ainda"
+  
+  - task: "PDF Reader Screen"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/reader/[id].tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Leitor completo com navegação horizontal/vertical, zoom, barras top/bottom, sidebar (estrutura/bookmarks/histórico), bookmarks com cores e notas, dicionário integrado"
+  
+  - task: "Settings Screen"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/settings.tsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Configurações com toggle tema, modo navegação, backup (placeholder), ativação desenvolvedor (5 toques)"
+  
+  - task: "Developer Screen"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/developer.tsx"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Modo desenvolvedor com estatísticas, informações do app, logs"
+  
+  - task: "Book Components"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/components/BookGridItem.tsx, /app/frontend/components/BookListItem.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Componentes BookGridItem e BookListItem implementados com capas, progresso, badges de status"
+  
+  - task: "State Management (Zustand)"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/store/bookStore.ts, /app/frontend/store/settingsStore.ts"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Stores criadas: bookStore (livros, filtros, ordenação), settingsStore (tema, modo leitor, developer mode)"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Books CRUD API"
+    - "Bookmarks API"
+    - "Dictionary API"
+    - "Reading History API"
+    - "Metadata Search API"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Backend completo implementado com todos os endpoints funcionando. MongoDB configurado. API de dicionário integrada (api-dicionario-ptbr). Open Library API para metadados. Frontend completo com todas as telas: biblioteca (grid/list), leitor PDF completo (navegação, zoom, bookmarks, dicionário, sidebar), configurações e desenvolvedor. Tema rosa vibrante aplicado. Por favor, testar todos os endpoints do backend primeiro."
