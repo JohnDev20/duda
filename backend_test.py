@@ -128,7 +128,7 @@ def test_create_test_book():
     
     if response.status_code == 200:
         book = response.json()
-        book_id = book.get("id")
+        book_id = book.get("_id")  # API returns _id not id
         if book_id:
             log_pass(f"Livro teste criado: {book_id}")
             return book_id
