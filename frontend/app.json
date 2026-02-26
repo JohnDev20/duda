@@ -1,22 +1,33 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "DUDA",
+    "slug": "duda-leitor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "frontend",
+    "scheme": "duda",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "primaryColor": "#FF1493",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.duda.leitor",
+      "infoPlist": {
+        "NSDocumentsFolderUsageDescription": "Salvar PDFs na pasta DUDA",
+        "NSPhotoLibraryUsageDescription": "Importar capas de livros"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#000"
+        "backgroundColor": "#FF1493"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.duda.leitor",
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -25,13 +36,15 @@
     },
     "plugins": [
       "expo-router",
+      "expo-document-picker",
+      "expo-file-system",
       [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000"
+          "backgroundColor": "#FF1493"
         }
       ]
     ],
