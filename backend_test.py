@@ -45,7 +45,10 @@ def make_request(method, endpoint, data=None, params=None):
         if method.upper() == "GET":
             response = requests.get(url, params=params, headers=HEADERS, timeout=10)
         elif method.upper() == "POST":
-            response = requests.post(url, json=data, headers=HEADERS, timeout=10)
+            if params:  # For reading history endpoint that expects query params
+                response = requests.post(url, params=params, headers=HEADERS, timeout=10)
+            else:  # For regular POST with JSON body
+                response = requests.post(url, json=data, headers=HEADERS, timeout=10)
         elif method.upper() == "PUT":
             response = requests.put(url, json=data, headers=HEADERS, timeout=10)
         elif method.upper() == "DELETE":
